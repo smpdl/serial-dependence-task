@@ -22,6 +22,20 @@ export function buildCanvasFixationStimulus() {
     line_color: "#ffffff",
   };
 }
+
+export function buildCanvasApertureBorderStimulus(position) {
+  const canvasOffset = viewportPositionToCanvasOffset(position);
+  const borderRadius = STIMULUS_DIAMETER_PX / 2 - APERTURE_BORDER_PX / 2;
+  return {
+    obj_type: "circle",
+    origin_center: true,
+    startX: canvasOffset.x,
+    startY: canvasOffset.y,
+    radius: borderRadius,
+    line_width: APERTURE_BORDER_PX,
+    line_color: APERTURE_BORDER_COLOR,
+  };
+}
 // steps are 1 degree apart. The del E for this is ~0.444.
 // this will give us a good resolution for the color wheel.
 export function buildColorWheelGradient() {
@@ -137,7 +151,7 @@ export function buildOrientationPsychophysicsStimuli(position, stimulusValue, ex
     startX: canvasOffset.x,
     startY: canvasOffset.y,
     width: ORIENTATION_GABOR_CONFIG.width,
-      tilt: wrapAngle(90 - stimulusValue, 180),
+    tilt: wrapAngle(90 - stimulusValue, 180),
     sf: ORIENTATION_GABOR_CONFIG.sf,
     sc: ORIENTATION_GABOR_CONFIG.sc,
     contrast: ORIENTATION_GABOR_CONFIG.contrast,
@@ -159,17 +173,15 @@ export function buildOrientationPsychophysicsStimuli(position, stimulusValue, ex
 
   const stimuli = [backgroundCircle, gaborStimulus, borderCircle];
 
-  // if both mask and gabor stimulus are present, we will mask the
-  // gabor stimulus with the mask.
   gaborStimulus.change_attr = (stim, elapsedTime, elapsedFrames) => {
-    const mask = stimuli[0].instance?.pixi_obj;
-    if (mask && stim.pixi_obj && stim.pixi_obj.mask !== mask) {
-      stim.pixi_obj.mask = mask;
-    }
     userChangeAttr?.(stim, elapsedTime, elapsedFrames);
   };
 
   return stimuli;
+}
+
+function buildOrientationApertureContent() {
+  return "";
 }
 
 function buildColorApertureContent(colorHex) {
@@ -201,6 +213,10 @@ export function buildStimulusHtml(blockName, stimulusValue, position, extra = {}
   return buildApertureShellHtml(position, extra.apertureStyle ?? "", buildStimulusInnerHtml(blockName, stimulusValue, extra));
 }
 
-export function buildPreviewShellHtml(position, extraStyle = "") {
-  return buildApertureShellHtml(position, extraStyle, "");
+export function buildPreviewShellHtml(position, extraStyle = "", content = "") {
+  return buildApertureShellHtml(position, extraStyle, content);
+}
+
+export function buildApertureFrameHtml(position, extraStyle = "") {
+  return buildApertureShellHtml(position, `background:transparent;pointer-events:none;${extraStyle}`, "");
 }

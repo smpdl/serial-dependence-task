@@ -8,6 +8,7 @@
     "build:sequences": "node --experimental-default-type=module src/sampling/buildStratifiedSequences.js"
   },
   "dependencies": {
+    "@jspsych-contrib/plugin-pipe": "^0.6.0",
     "@jspsych/plugin-fullscreen": "^2.1.0",
     "@jspsych/plugin-html-keyboard-response": "^2.1.0",
     "@jspsych/plugin-preload": "^2.1.0",
@@ -17,6 +18,9 @@
   },
   "devDependencies": {
     "jspsych-builder": "^4.4.0"
+  },
+  "overrides": {
+    "pixi.js": "6.5.8"
   },
   "browserslist": ">0.25%, not dead"
 }

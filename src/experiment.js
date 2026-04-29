@@ -8,6 +8,7 @@
 import "../styles/main.scss";
 
 import { initJsPsych } from "jspsych";
+import PipePlugin from "@jspsych-contrib/plugin-pipe";
 import {
   BLOCK_NAMES,
   MAIN_TRIALS_PER_BLOCK,
@@ -46,9 +47,25 @@ async function loadSequenceData(assetPaths) {
   return sequenceData;
 }
 
+function buildSaveDataTrial(jsPsych, filename) {
+  return {
+    type: PipePlugin,
+    action: "save",
+    experiment_id: "aFmbbDSZhzMd",
+    filename,
+    data_string: () => jsPsych.data.get().json(),
+  };
+}
+
 export async function run({ assetPaths }) {
   const jsPsych = initJsPsych();
   const timeline = [];
+  const subjectId = jsPsych.randomization.randomID(10);
+  const filename = `${subjectId}.json`;
+  jsPsych.data.addProperties({
+    subject_id: subjectId,
+    data_filename: filename,
+  });
   // block order will be randomized for each participant.
   // we will not do counterbalancing for the block order or quadrant assignment.
   // because of the nature of online experiment. 
@@ -93,6 +110,7 @@ export async function run({ assetPaths }) {
       const sharedData = trialMeta(
         blockName,
         blockIndex,
+        blockOrder,
         phase,
         trialNumber,
         blockQuadrant,
@@ -127,6 +145,7 @@ export async function run({ assetPaths }) {
 
   // push the experiment end message to the timeline.
   pushExperimentEnd(timeline);
+  timeline.push(buildSaveDataTrial(jsPsych, filename));
   // run the timeline.
   await jsPsych.run(timeline);
   // return the jsPsych instance.

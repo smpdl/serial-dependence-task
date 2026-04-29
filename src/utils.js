@@ -10,6 +10,8 @@ import {
   NUMEROSITY_MAX,
   NUMEROSITY_MIN,
   ORIENTATION_PERIOD,
+  ORIENTATION_GABOR_CONFIG,
+  STIMULUS_DIAMETER_PX,
 } from "./config.js";
 
 export const DEFAULT_SEQUENCE_META = {
@@ -117,6 +119,7 @@ export function viewportPositionToCanvasOffset(position) {
 export function trialMeta(
   blockName,
   blockIndex,
+  blockOrder,
   phase,
   trialNumber,
   quadrant,
@@ -127,15 +130,27 @@ export function trialMeta(
 ) {
   return {
     block_number: blockIndex + 1,
+    block_order: blockOrder.join("|"),
+    block_order_position: blockIndex + 1,
     block_name: blockName,
     trial_phase: phase,
+    is_practice: phase === "practice",
     trial_number: trialNumber,
     quadrant,
     stimulus_x: Number(position.x.toFixed(1)),
     stimulus_y: Number(position.y.toFixed(1)),
     stimulus_value: stimulusValue,
     rendered_chroma: renderedChroma,
+    stimulus_contrast: blockName === "orientation" ? ORIENTATION_GABOR_CONFIG.contrast : null,
+    stimulus_size_px: STIMULUS_DIAMETER_PX,
+    stimulus_size_visual_degrees: null,
     ...DEFAULT_SEQUENCE_META,
     ...sequenceMeta,
   };
+}
+
+export function responseStepDelta(blockName, previousValue, nextValue) {
+  if (blockName === "orientation") return circularError(nextValue, previousValue, ORIENTATION_PERIOD);
+  if (blockName === "color") return circularError(nextValue, previousValue, 360);
+  return nextValue - previousValue;
 }

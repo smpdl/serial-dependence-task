@@ -1,5 +1,10 @@
 @import "~jspsych/css/jspsych.css";
 
+html,
+body {
+  background-color: #808080;
+}
+
 .jspsych-display-element {
   background-color: #808080;
   color: #000;
@@ -7,7 +12,7 @@
 
 .jspsych-content {
   color: #000;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   line-height: 1.6;
 }
 
@@ -20,7 +25,7 @@
   margin: 0 auto;
   text-align: left;
   line-height: 1.7;
-  font-size: 1.12rem;
+  font-size: 1.05rem;
 }
 
 .readable-text p,

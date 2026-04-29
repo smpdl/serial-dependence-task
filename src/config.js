@@ -1,16 +1,18 @@
 export const STIMULUS_DIAMETER_PX = 250;
 export const MASK_BLUR_PX = 5;
-
-
 export const APERTURE_BORDER_PX = 10;
 export const APERTURE_BORDER_COLOR = "#000";
 
 export const RESPONSE_DEADLINE_MS = 5000;
+export const PRE_STIMULUS_FIXATION_DURATION_MS = 250;
+export const STIMULUS_DURATION_MS = 500;
+export const MASK_DURATION_MS = 1000;
+export const PRE_RESPONSE_FIXATION_DURATION_MS = 250;
 
 export const PRACTICE_TRIALS_PER_BLOCK = 10;
 export const MAIN_TRIALS_PER_BLOCK = 201;
 
-export const TRIAL_PHASE_SEQUENCE = ["stimulus", "mask", "fixation", "response", "fixation"];
+export const TRIAL_PHASE_SEQUENCE = ["fixation", "stimulus", "mask", "fixation", "response"];
 
 export const PRACTICE_SEQUENCES = {
   color: [0, 40, 80, 120, 160, 200, 240, 280, 320, 350],
@@ -18,26 +20,17 @@ export const PRACTICE_SEQUENCES = {
   numerosity: [25, 28, 32, 37, 42, 47, 52, 57, 61, 65],
 };
 
-export const BLOCK_NAMES = ["color","orientation","numerosity"];
+export const BLOCK_NAMES = ["numerosity"];
 export const QUADRANTS = ["upper_left", "upper_right", "lower_left", "lower_right"];
 
 export const ORIENTATION_PERIOD = 180;
 export const NUMEROSITY_MIN = 25;
 export const NUMEROSITY_MAX = 65;
 
-export const FIXATION_HTML = `
-  <div style="
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%);
-    font-size:60px;
-    line-height:1;
-    color:#fff;
-    z-index:20;
-    pointer-events:none;
-  ">+</div>
-`;
+export const FIXATION_COLOR = "#fff";
+export const FIXATION_FONT_SIZE_PX = 74;
+export const FIXATION_LINE_HEIGHT = 1;
+export const FIXATION_HIT_SIZE_PX = 112;
 
 export const ORIENTATION_GABOR_CONFIG = {
   width: STIMULUS_DIAMETER_PX - APERTURE_BORDER_PX * 4,

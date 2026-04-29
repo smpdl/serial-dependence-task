@@ -6,6 +6,7 @@ import {
   buildExperimentEndHtml,
   buildPracticeCompleteHtml,
 } from "./instructions.js";
+import { buildScreenWithFixation } from "./fixation.js";
 
 export function pushBootstrapTimeline(timeline, assetPaths, jsPsych) {
   timeline.push({
@@ -17,7 +18,9 @@ export function pushBootstrapTimeline(timeline, assetPaths, jsPsych) {
 
   timeline.push({
     type: HtmlKeyboardResponsePlugin,
-    stimulus: "<p>Welcome to the experiment.</p><p>Press any key from your keyboard to continue.</p>",
+    stimulus: "<p>Welcome to the experiment.</p><p>Press Enter to continue.</p>",
+    choices: ["Enter", "Return", "NumpadEnter"],
+    
   });
 
   timeline.push({
@@ -26,7 +29,7 @@ export function pushBootstrapTimeline(timeline, assetPaths, jsPsych) {
       <h3>Consent Form</h3>
       <div style="max-width:760px;margin:0 auto;text-align:left;line-height:1.5;">
         <p>For this study, you will be asked to give a response about visual stimulus right at your peripheral vision. Your responses will be kept completely confidential.</p>
-        <p>The study should take you around 30 minutes to complete. You will receive $5 USD for your participation. Your participation in this research is voluntary. You have the right to withdraw at any point during the study. The Principal Investigator of this study can be contacted at jdeleeuw@vassar.edu and jolong@vassar.edu.</p>
+        <p>The study should take you around 30 minutes to complete. You will receive $10 USD for your participation. Your participation in this research is voluntary. You have the right to withdraw at any point during the study. The Principal Investigator of this study can be contacted at jdeleeuw@vassar.edu and jolong@vassar.edu.</p>
         <p>By clicking the button below, you acknowledge:</p>
         <ul>
           <li>Your participation in the study is voluntary.</li>
@@ -56,20 +59,25 @@ export function pushBootstrapTimeline(timeline, assetPaths, jsPsych) {
 export function pushBlockIntro(timeline, blockIndex, blockName) {
   timeline.push({
     type: HtmlKeyboardResponsePlugin,
-    stimulus: buildBlockIntroHtml(blockIndex, blockName),
+    stimulus: buildScreenWithFixation(buildBlockIntroHtml(blockIndex, blockName)),
+    choices: ["Enter", "Return", "NumpadEnter"],
   });
 }
 
 export function pushPracticeComplete(timeline, blockIndex) {
   timeline.push({
     type: HtmlKeyboardResponsePlugin,
-    stimulus: buildPracticeCompleteHtml(blockIndex),
+    stimulus: buildScreenWithFixation(buildPracticeCompleteHtml(blockIndex)),
+    choices: ["Enter", "Return", "NumpadEnter"],
   });
 }
 
 export function pushExperimentEnd(timeline) {
   timeline.push({
     type: HtmlKeyboardResponsePlugin,
-    stimulus: buildExperimentEndHtml(),
+    stimulus: buildScreenWithFixation(buildExperimentEndHtml(), {
+      includeFixation: false,
+    }),
+    choices: ["Enter", "Return", "NumpadEnter"],
   });
 }
