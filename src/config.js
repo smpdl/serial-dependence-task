@@ -20,7 +20,7 @@ export const PRACTICE_SEQUENCES = {
   numerosity: [25, 28, 32, 37, 42, 47, 52, 57, 61, 65],
 };
 
-export const BLOCK_NAMES = ["color", "orientation", "numerosity"];
+export const BLOCK_NAMES = ["orientation"];
 export const QUADRANTS = ["upper_left", "upper_right", "lower_left", "lower_right"];
 
 export const ORIENTATION_PERIOD = 180;
