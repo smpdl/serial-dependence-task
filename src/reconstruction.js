@@ -26,6 +26,31 @@ import {
 } from "./utils.js";
 
 const FIXATION_ID = "trial-fixation";
+const RESPONSE_UI_STYLE = `
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%, calc(-100% - 36px));
+  width:min(560px, calc(100vw - 32px));
+  text-align:center;
+  visibility:hidden;
+  z-index:20;
+`;
+
+function buildResponseUiContainer(innerHtml, extraStyle = "") {
+  return `
+    <div
+      style="
+        display:grid;
+        justify-items:center;
+        gap:12px;
+        ${extraStyle}
+      "
+    >
+      ${innerHtml}
+    </div>
+  `;
+}
 
 function appendSharedResponseData(data, sharedData) {
   Object.assign(data, sharedData, { segment: "response" });
@@ -95,16 +120,7 @@ function buildSharedTrialShell({ displayLayerId, responseUiId, responseUiHtml })
       <div id="${displayLayerId}" style="position:absolute;inset:0;"></div>
       <div
         id="${responseUiId}"
-        style="
-          position:absolute;
-          left:50%;
-          top:24px;
-          transform:translateX(-50%);
-          width:min(560px, calc(100vw - 32px));
-          text-align:center;
-          visibility:hidden;
-          z-index:20;
-        "
+        style="${RESPONSE_UI_STYLE}"
       >
         ${responseUiHtml}
       </div>
@@ -119,19 +135,7 @@ function buildOrientationOverlayHtml(blockPosition) {
       ${buildApertureFrameHtml(blockPosition, "z-index:10;")}
       <div
         id="orientation-response-ui"
-        style="
-          position:absolute;
-          left:50%;
-          top:24px;
-          transform:translateX(-50%);
-          width:min(560px, calc(100vw - 32px));
-          text-align:center;
-          visibility:hidden;
-          pointer-events:auto;
-          display:grid;
-          justify-items:center;
-          gap:12px;
-        "
+        style="${RESPONSE_UI_STYLE}pointer-events:auto;display:grid;justify-items:center;gap:12px;"
       >
         <p>Use the arrow pointer to match the orientation of the grating you just saw.</p>
         <div data-orientation-selector></div>
@@ -147,7 +151,7 @@ function stripOrientationFrameStimuli(stimuli) {
 }
 
 function buildColorResponseUi(initialValue) {
-  return `
+  return buildResponseUiContainer(`
     <p>Use the color wheel to match the color of the patch you just saw.</p>
     <div
       id="color-wheel"
@@ -175,12 +179,12 @@ function buildColorResponseUi(initialValue) {
         "
       ></div>
     </div>
-    <p style="margin-top:12px;">Click the central fixation to confirm.</p>
-  `;
+    <p>Click the central fixation to confirm.</p>
+  `);
 }
 
 function buildNumerosityResponseUi(initialValue) {
-  return `
+  return buildResponseUiContainer(`
     <p>Use the slider to match how many dots you saw.</p>
     <input
       id="num-slider"
@@ -191,8 +195,8 @@ function buildNumerosityResponseUi(initialValue) {
       value="${Math.round(initialValue)}"
       style="width:min(320px, calc(100vw - 48px));"
     />
-    <p style="margin-top:12px;">Click the central fixation to confirm.</p>
-  `;
+    <p>Click the central fixation to confirm.</p>
+  `);
 }
 
 function buildResponsePreviewMarkup(blockName, blockPosition, state, extra = {}) {

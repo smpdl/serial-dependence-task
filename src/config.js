@@ -1,6 +1,6 @@
-export const STIMULUS_DIAMETER_PX = 250;
+export const STIMULUS_DIAMETER_PX = 200;
 export const MASK_BLUR_PX = 5;
-export const APERTURE_BORDER_PX = 10;
+export const APERTURE_BORDER_PX = 5;
 export const APERTURE_BORDER_COLOR = "#000";
 
 export const RESPONSE_DEADLINE_MS = 5000;
@@ -20,7 +20,7 @@ export const PRACTICE_SEQUENCES = {
   numerosity: [25, 28, 32, 37, 42, 47, 52, 57, 61, 65],
 };
 
-export const BLOCK_NAMES = ["orientation"];
+export const BLOCK_NAMES = ["orientation", "color", "numerosity"];
 export const QUADRANTS = ["upper_left", "upper_right", "lower_left", "lower_right"];
 
 export const ORIENTATION_PERIOD = 180;
